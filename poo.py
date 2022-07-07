@@ -25,6 +25,15 @@ class Robot:
         else:
             print(f'{self.nume} has {self.garantie-self.age} age')
 
+    @property
+    def identify(self):
+        return self.nume+'->'+self.serial_number
+
+    @identify.setter
+    def identify(self,ident):
+        nume,serial=ident.split(' ')
+        self.nume=nume
+        self.serial_number=serial
 
     @classmethod
     def seteaza_garantia(cls,ani):
@@ -38,7 +47,19 @@ class Robot:
     @staticmethod
     def dimensiune_cerc(raza):
         return 2*math.pi*raza,math.pi*raza*raza
+
+
+    def __repr__(self):
+        return f'Robot("{self.nume}", "{self.serial_number}", "{self.hardware}", "{self.software}", {self.garantie}, {self.sleep})'
+
+    def __str__(self):
+        return self.nume
+
+    def __add__(self, other):
+        return self.nume+other.nume
+
 r1=Robot("John","12345","i5","Python",True,11)
+r2 = Robot("Mark", "22333", "i5", "C++", True, 3)
 # print(r1.hardware)
 # print(r1.sleep)
 # print(r1.turn_on())
@@ -62,11 +83,23 @@ r1=Robot("John","12345","i5","Python",True,11)
 #
 # print(r1.nume)
 
+class Aspirator(Robot):
+    garantie=15
+    def __init__(self,nume,serial_number,hardware,software,sleep,age,power):
+        super().__init__(nume,serial_number,hardware,software,sleep,age)
+        self.power=power
 robot_attributes=['Michal','33333','i7','Python',1,True]
 nume,serial_number,hardware,software,age,sleep=robot_attributes
 r3=Robot(nume,serial_number,hardware,software,age,sleep)
-print(r3.serial_number)
-
-Robot.seteaza_garantia(11)
-print(Robot.garantie)
-print(Robot.dimensiune_cerc(9))
+# print(r3.serial_number)
+#
+# Robot.seteaza_garantia(11)
+# print(Robot.garantie)
+# print(Robot.dimensiune_cerc(9))
+a1=Aspirator("George","42333","i5","C++",True,3,"1kw")
+print(a1.serial_number)
+print(r1.identify)
+r1.nume="Jonny"
+print(r1.identify)
+r1.identify='Marcus 123321'
+print(r1.nume)
